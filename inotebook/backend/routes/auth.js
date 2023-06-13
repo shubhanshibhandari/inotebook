@@ -44,11 +44,51 @@ router.post('/createuser', [
 
     } catch(err) {
         console.error(err.message);
-        res.status(500).json({error: err.message});
+        res.status(500).json({"Ineternal Server Error": err.message});
     }
     // .then(user => res.json(user))
     // .catch(err=>{console.log(err)
     // res.json({"errors": "Please enter unique email"})});
 });
+
+
+// Login a user POST "/api/auth/login"
+router.post('/login', [
+    body('email',"Enter valid email").isEmail(),
+    body('password',"Password cannot be empty").exists()
+],async (req,res)=>{
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()});
+    }
+
+    //destructuring request.body and getting email and password separate
+    const {email,password}=req.body;
+    
+    try{
+        let user=await User.findOne({email});
+        if(!user){
+            return res.status(400).json({errors:"wrong email or password"});
+        }
+
+        const passwordCompared=await bcrypt.compare(password,user.password);
+        if(!passwordCompared){
+            return res.status(400).json({errors:"wrong email or password"});
+        }
+
+        const data = {
+            user:{
+                id:user.id
+            }
+        }
+
+        const authToken = jwt.sign(data,JWT_SECRET);
+        res.json({authToken})
+    }catch(err){
+        console.error(err.message);
+        res.status(500).send("Ineternal Server Error: " + err.message);
+    }
+});
+
 
 module.exports = router
