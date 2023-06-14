@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
+const {Schema} = mongoose;
 
 const NotesSchema = new mongoose.Schema({
-    name:{
+    user:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'//taken from module.exports = mongoose.model('user', UserSchema);
+    },
+    title:{
         type: String,
         required: true
     },
