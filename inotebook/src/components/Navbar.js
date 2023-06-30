@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import { Link, useLocation } from "react-router-dom";
+import Login from "./Login";
 
 export const Navbar = () => {
   let location = useLocation();
@@ -37,6 +38,10 @@ export const Navbar = () => {
             </li>
           </ul>
         </div>
+        <form className="d-flex">
+        <Link class="btn btn-primary mx-1" to="login" tabindex="-1" role="button" aria-disabled="true">Login</Link>
+        <Link class="btn btn-primary mx-1" to="signup" tabindex="-1" role="button" aria-disabled="true">Sign-Up</Link>
+        </form>
       </nav>
     </div>
   );

@@ -67,14 +67,15 @@ router.post('/login', [
     const {email,password}=req.body;
     
     try{
+        let success=false;
         let user=await User.findOne({email});
         if(!user){
-            return res.status(400).json({errors:"wrong email or password"});
+            return res.status(400).json({success,errors:"wrong email or password"});
         }
 
         const passwordCompared=await bcrypt.compare(password,user.password);
         if(!passwordCompared){
-            return res.status(400).json({errors:"wrong email or password"});
+            return res.status(400).json({success,errors:"wrong email or password"});
         }
 
         const data = {
@@ -82,9 +83,9 @@ router.post('/login', [
                 id:user.id
             }
         }
-
+        success=true;
         const authToken = jwt.sign(data,JWT_SECRET);
-        res.json({authToken})
+        res.json({success,authToken})
     }catch(err){
         console.error(err.message);
         res.status(500).send("Ineternal Server Error: " + err.message);
