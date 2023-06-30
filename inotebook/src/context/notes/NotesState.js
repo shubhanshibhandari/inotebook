@@ -38,17 +38,9 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    const json = response.json();
-    const note = {
-      _id: "648a1100b27efee9ffbf1e2023",
-      user: "64885c4122ad2c4504a2139e",
-      title: notess.title,
-      description: notess.description,
-      tag: notess.tag,
-      date: "2023-06-14T19:12:00.293Z",
-      __v: 0,
-    };
-    setNotes(notes.concat(note));
+    const note = response.json();
+    // setNotes(notes.concat(note));
+    getNotes();
   };
 
   // Delete a note
@@ -60,7 +52,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ4ODVjNDEyMmFkMmM0NTA0YTIxMzllIn0sImlhdCI6MTY4Njc2NzUxMX0.a65R4ZmTqc_KmnQOlHjWHVt495fEWPUq7AaBxC5wgvk"
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ4ODVjNDEyMmFkMmM0NTA0YTIxMzllIn0sImlhdCI6MTY4Njc2NzUxMX0.a65R4ZmTqc_KmnQOlHjWHVt495fEWPUq7AaBxC5wgvk",
       },
     });
     const json = response.json();
@@ -84,7 +76,7 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag }),
     });
     const json = response.json();
-    let newNote= JSON.parse(JSON.stringify(notes));
+    let newNote = JSON.parse(JSON.stringify(notes));
     for (let index = 0; index < newNote.length; index++) {
       const note = newNote[index];
       if (note._id === id) {

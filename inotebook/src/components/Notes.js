@@ -22,8 +22,8 @@ const Notes = () => {
   };
 
   const handleClick=(e) => {
-    // e.preventDefault();
-    console.log("updae note"+note);
+    e.preventDefault();
+    console.log("update note"+note);
     editNote(note.id,note.etitle,note.edescription,note.etag);
     refclose.current.click();
 }
