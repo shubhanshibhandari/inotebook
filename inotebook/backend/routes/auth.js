@@ -14,16 +14,17 @@ router.post('/createuser', [
     body('email').isEmail(),
     body('password').isLength({min:5})
 ],async (req,res)=>{
+    let success=false;
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-        return res.status(400).json({errors: errors.array()});
+        return res.status(400).json({success,errors: errors.array()});
     }
     // Check whether the user with same email already existing
 
     try{
     let user =await User.findOne({email: req.body.email});
     if(user){
-        return res.status(400).json({error: "Email id already exists"});
+        return res.status(400).json({success,error: "Email id already exists"});
     }
 
     //generating a secret password
@@ -41,11 +42,12 @@ router.post('/createuser', [
     }
     const authToken=jwt.sign(data,JWT_SECRET);
     console.log(authToken);
-    res.json({authToken});
+    success=true;
+    res.json({success,authToken});
 
     } catch(err) {
         console.error(err.message);
-        res.status(500).json({"Ineternal Server Error": err.message});
+        res.status(500).json({success,"Ineternal Server Error": err.message});
     }
     // .then(user => res.json(user))
     // .catch(err=>{console.log(err)
