@@ -13,7 +13,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          localStorage.authToken,
+          localStorage.getItem("authToken"),
       },
     });
     const json = await response.json();
@@ -34,7 +34,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          localStorage.authToken,
+          localStorage.getItem("authToken"),
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -52,7 +52,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          localStorage.authToken,
+          localStorage.getItem("authToken"),
       },
     });
     const json = response.json();
@@ -71,7 +71,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          localStorage.authToken,
+          localStorage.getItem("authToken"),
       },
       body: JSON.stringify({ title, description, tag }),
     });
