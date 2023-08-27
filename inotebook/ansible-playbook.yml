@@ -1,0 +1,25 @@
+---
+- name: Deploy Docker Image to Container
+  hosts: all
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Start docker service
+      service:
+        name: docker
+        state: started
+    - name: copy docker file
+      copy:
+        src: docker-compose.yml
+        dest: docker-compose.yml
+    - name: shell docker
+      shell:
+        cmd: docker-compose down
+    - name: docker compose
+      docker_compose:
+        project_src: .
+        files:
+          - docker-compose.yml
+        state: present
+    - name: Prune dangling docker images
+      command: docker image prune --force
